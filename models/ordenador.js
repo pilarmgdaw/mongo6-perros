@@ -1,7 +1,7 @@
 // Using Node.js `require()`
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://andujarbosco:AU38yGaxOohnqopw@cluster0.yaak6.mongodb.net/almacen')
+mongoose.connect('mongodb+srv://andujarbosco:@cluster0.yaak6.mongodb.net/almacen')
   .then(() => console.log('Connected!'));
 
 //definimos el esquema del documento
