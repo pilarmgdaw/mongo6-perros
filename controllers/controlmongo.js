@@ -23,5 +23,7 @@ Ordenador.findOne()
   })
   .catch(err=>console.error('Error al obtener el ordenador',err));
 }
+
+
 module.exports = { buscaPrimero };
 
