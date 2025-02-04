@@ -1,7 +1,7 @@
 // Using Node.js `require()`
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://andujarbosco:@cluster0.yaak6.mongodb.net/almacen')
+mongoose.connect('mongodb+srv://andujarbosco:AU38yGaxOohnqopw@cluster0.yaak6.mongodb.net/almacen')
   .then(() => console.log('Connected!'));
 
 //definimos el esquema del documento
@@ -14,10 +14,10 @@ const ordenadorSchema = new mongoose.Schema({
 const Ordenador = mongoose.model('Ordenadore',ordenadorSchema, 'ordenadores'); 
 const buscaPrimero = ()=>{
     //buscamos el primer registro
-  Ordenador.findOne()
+  return Ordenador.findOne()
     .then( ordenador=>{
       if (ordenador) {
-        console.log('Primer ordenador encontrado',ordenador)
+        console.log('Primer ordenador encontrado',ordenador);
       } else {
         console.log('No se encontró ningún registro')
       }
@@ -27,28 +27,36 @@ const buscaPrimero = ()=>{
 
   const buscaTodos = ()=>{
     //buscamos todos los registros
-  Ordenador.find()
+  return Ordenador.find()
     .then( ordenadores=>{
       if (ordenadores.length>0) {
-        console.log('Ordenadores encontrados',ordenadores)
+        console.log('Ordenadores encontrados',ordenadores);
+        return ordenadores;
       } else {
-        console.log('No se encontró ningún registro')
+        console.log('No se encontró ningún registro');
+        return null;
       }
     })
-    .catch(err=>console.error('Error al obtener los ordenadores',err));
+    .catch(err=>{console.error('Error al obtener los ordenadores',err);
+      throw err;
+    });
   }
 
   const buscaPorId = (id)=>{
     //buscamos el primer registro
-  Ordenador.findById(id)
+  return Ordenador.findById(id)
     .then( ordenador=>{
       if (ordenador) {
-        console.log('Primer ordenador encontrado',ordenador)
+        console.log('Primer ordenador encontrado',ordenador);
+        return ordenador;
       } else {
-        console.log('No se encontró ningún registro con el id'+ id)
+        console.log('No se encontró ningún registro con el id'+ id);
+        return null;
       }
     })
-    .catch(err=>console.error('Error al obtener el ordenador',err));
+    .catch(err=>{console.error('Error al obtener el ordenador' + id,err);
+      throw err;
+    });
   }
 
   //***************************** */
@@ -74,9 +82,15 @@ const buscaPrecioMayor = (precioMinimo)=>{
       });
 
       // Guardar el ordenador en la base de datos
-      nuevoOrdenador.save()
-        .then(ordenador => console.log('Ordenador guardado:', ordenador))
-        .catch(err => console.error('Error al guardar el ordenador:', err));
+      return nuevoOrdenador.save()
+        .then(ordenador => {
+          console.log('Ordenador guardado:', ordenador);
+          return ordenador;
+        } )
+        .catch(err => {
+          console.error('Error al guardar el ordenador:', err);
+          throw err;
+        });
 
   }
 
@@ -93,15 +107,19 @@ const buscaPrecioMayor = (precioMinimo)=>{
   }
 
   const borraOrdenador = (idOrdenadorParaBorrar) =>{
-    Ordenador.findByIdAndDelete(idOrdenadorParaBorrar)
+    return Ordenador.findByIdAndDelete(idOrdenadorParaBorrar)
     .then(ordenadorEliminado => {
       if (ordenadorEliminado) {
         console.log('Ordenador eliminado:', ordenadorEliminado);
+        return ordenadorEliminado;
       } else {
         console.log('No se encontró ningún ordenador con ese ID.');
+        return null;
       }
     })
-    .catch(err => console.error('Error al eliminar el ordenador:', err));
+    .catch(err => {console.error('Error al eliminar el ordenador:', err);
+      throw err;
+    });
 
 }
   module.exports = { buscaPrimero,buscaTodos,buscaPorId, 

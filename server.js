@@ -4,6 +4,8 @@ const port = 3000;
 
 // Middleware para parsear el cuerpo de las solicitudes en formato JSON
 app.use(express.json());
+app.use(express.static('public'));
+const modeloOrdenador = require('./models/ordenador');
 // Datos de ejemplo (simulando una base de datos)
 let items = [
   { id: 1, name: "Ordenador 1" },
@@ -14,30 +16,35 @@ let items = [
 
 // Obtener todos los ítems
 app.get("/items", (req, res) => {
-  res.json(items);
+  modeloOrdenador.buscaTodos()
+  .then(
+    ordenadores=>res.status(200).json(ordenadores)
+  )
+  .catch(err=>res.status(500).send("error"))
 });
 
 
 // Obtener un ítem por ID
 app.get("/items/:id", (req, res) => {
-  const itemId = parseInt(req.params.id);
-  const item = items.find((i) => i.id === itemId);
-  if (item) {
-    res.json(item);
-  } else {
-    res.status(404).json({ message: "Ítem no encontrado" });
-  }
+  const itemId = req.params.id;
+  modeloOrdenador.buscaPorId(itemId)
+  .then(
+    ordenador=>res.status(200).json(ordenador)
+  )
+  .catch(err=>res.status(500).send("error"))
 });
 
 
 // Crear un nuevo ítem
 app.post("/items", (req, res) => {
-  const newItem = {
-    id: items.length + 1,
-    name: req.body.name,
-  };
-  items.push(newItem);
-  res.status(201).json(newItem);
+    marca= req.body.marca;
+    precio= req.body.precio;
+    modeloOrdenador.creaNuevoOrdenador(marca,precio)
+    .then(
+      ordenador=>res.status(200).json(ordenador)
+    )
+    .catch(err=>res.status(500).send("error"))
+
 });
 
 
@@ -56,14 +63,13 @@ app.put("/items/:id", (req, res) => {
 
 // Eliminar un ítem
 app.delete("/items/:id", (req, res) => {
-  const itemId = parseInt(req.params.id);
-  const itemIndex = items.findIndex((i) => i.id === itemId);
-  if (itemIndex !== -1) {
-    const deletedItem = items.splice(itemIndex, 1);
-    res.json(deletedItem);
-  } else {
-    res.status(404).json({ message: "Ítem no encontrado" });
-  }
+  const itemId = req.params.id;
+  modeloOrdenador.borraOrdenador(itemId)
+  .then(
+    ordenador=>res.status(200).json(ordenador)
+  )
+  .catch(err=>res.status(500).send("error"))
+
 });
 
 
