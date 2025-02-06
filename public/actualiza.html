@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Lista Ordenadores</h1>
+    <select name="seleccionaOrdenador" id="seleccionaOrdenador">
+
+    </select>
+    <script>
+        fetch('/items')
+        .then(response=>response.json())
+        .then(
+            ordenadores=>{
+                for ( ordenador of ordenadores){
+                    let opcion = document.createElement('option');
+                    opcion.value = ordenador._id;
+                    opcion.innerHTML = ordenador.marca +'-' + ordenador.precio;
+                    document.getElementById("seleccionaOrdenador").appendChild(opcion)
+                }
+            }
+        ).catch(err=>alert(err))
+
+
+        const traeOrdenador=()=>{
+            id = document.getElementById("seleccionaOrdenador").value;
+            fetch('/items/' + id)
+            .then( response =>response.json())
+            .then( ordenador => {
+                document.getElementById('marca').value = ordenador.marca;
+                document.getElementById('precio').value = ordenador.precio;
+
+            })
+
+        }
+
+        document.getElementById("seleccionaOrdenador").addEventListener('change',traeOrdenador);
+
+
+    </script>
+
+    <p>Marca: <input type="text" name="marca" id="marca"></p>
+    <p>Precio: <input type="number" name="precio" id="precio"></p>
+    <button id="btn-insertar">Insertar</button>
+
+
+    </body>
+</html>

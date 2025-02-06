@@ -25,14 +25,34 @@
             console.log(ordenadores);
             for ( ordenador of ordenadores){
                 fila = document.createElement('tr');
-                fila.innerHTML = `<td>${ordenador._id}</td><td>${ordenador.marca}</td><td>${ordenador.precio}</td>`;
+                fila.id = ordenador._id;
+                fila.innerHTML = `<td>${ordenador._id}</td>
+                <td>${ordenador.marca}</td>
+                <td>${ordenador.precio}</td>
+                <td><button onclick=eliminaOrdenador('${ordenador._id}')>Borrar ordenador</button></td>`;
                 document.getElementById('cuerpo-tabla').appendChild(fila);
             }
-            
+           
         })
      
-        function eliminaOrdenador(){
-            
+        function eliminaOrdenador(id){
+            if (confirm("¿Está seguro/a?")){
+                fetch('/items/'+id,{
+                    method:'DELETE'   
+                }).
+                then(response=>{
+                    if (  esponse.ok ) {
+                        document.getElementById(id).remove();
+                        alert("Ordenador eliminado");
+
+                    }
+                    else
+                    {
+                        alert("ERROR al eliminar")
+                    }
+
+                })
+            }
         }
     </script>
 </body>

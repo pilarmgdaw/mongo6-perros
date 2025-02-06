@@ -94,6 +94,24 @@ const buscaPrecioMayor = (precioMinimo)=>{
         });
 
   }
+  const creaNuevoOrdenadorGeneral = ( ordenador) =>{
+    const nuevoOrdenador = new Ordenador({
+        marca: m,
+        precio: p
+      });
+
+      // Guardar el ordenador en la base de datos
+      return nuevoOrdenador.save()
+        .then(ordenador => {
+          console.log('Ordenador guardado:', ordenador);
+          return ordenador;
+        } )
+        .catch(err => {
+          console.error('Error al guardar el ordenador:', err);
+          throw err;
+        });
+
+  }
 
   const actualizaPrecio = (idOrdenador,nuevoPrecio) => {
     Ordenador.findByIdAndUpdate(idOrdenador, { precio: nuevoPrecio }, { new: true })
