@@ -125,6 +125,20 @@ const buscaPrecioMayor = (precioMinimo)=>{
     .catch(err => console.error('Error al actualizar el ordenador:', err));
   }
 
+  const actualizaOrdenador = (idOrdenador,ordenadorActualizar) => {
+    return Ordenador.findByIdAndUpdate(idOrdenador, ordenadorActualizar, { new: true })
+    .then(ordenadorActualizado => {
+      if (ordenadorActualizado) {
+        console.log('Ordenador actualizado:', ordenadorActualizado);
+        return ordenadorActualizado;
+      } else {
+        console.log('No se encontró ningún ordenador con ese ID.');
+        return null;
+      }
+    })
+    .catch(err => console.error('Error al actualizar el ordenador:', err));
+  }
+
   const borraOrdenador = (idOrdenadorParaBorrar) =>{
     return Ordenador.findByIdAndDelete(idOrdenadorParaBorrar)
     .then(ordenadorEliminado => {
@@ -141,5 +155,5 @@ const buscaPrecioMayor = (precioMinimo)=>{
     });
 
 }
-  module.exports = { buscaPrimero,buscaTodos,buscaPorId, 
+  module.exports = { actualizaOrdenador, buscaPrimero,buscaTodos,buscaPorId, 
     buscaPrecioMayor, actualizaPrecio, borraOrdenador, creaNuevoOrdenador,Ordenador }

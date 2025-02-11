@@ -30,6 +30,7 @@
             fetch('/items/' + id)
             .then( response =>response.json())
             .then( ordenador => {
+                document.getElementById('id').value = ordenador._id;
                 document.getElementById('marca').value = ordenador.marca;
                 document.getElementById('precio').value = ordenador.precio;
 
@@ -37,15 +38,42 @@
 
         }
 
+        const actualizaOrdenador = ()=>{
+            let marca = document.getElementById('marca').value;
+            let precio = Number(document.getElementById('precio').value);
+            let id=document.getElementById("seleccionaOrdenador");
+                fetch('/items/' + id,{
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type' : 'application/JSON'
+                    },
+                    body: JSON.stringify({marca, precio})
+                }).then(
+                    ordenador=>{
+                        if ( ordenador ) {
+                            alert("ordenador ACTUALIZADO")
+                        } else {
+                            alert("No se insertó el ordenador")
+                        }
+                    }
+
+                )
+                .catch(err=>{
+                    alert(err);
+                })
+
+
+        }
         document.getElementById("seleccionaOrdenador").addEventListener('change',traeOrdenador);
+        document.getElementById("btn-insertar").addEventListener('click',actualizaOrdenador);
 
 
     </script>
-
+    <input type="text" name="id" id="id">
     <p>Marca: <input type="text" name="marca" id="marca"></p>
     <p>Precio: <input type="number" name="precio" id="precio"></p>
-    <button id="btn-insertar">Insertar</button>
-
+    <button id="btn-insertar" onclick="actualizaOrdenador()">Actualiza</button>
+    
 
     </body>
 </html>

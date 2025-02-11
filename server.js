@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3002;
+const port = 3003;
 
 // Middleware para parsear el cuerpo de las solicitudes en formato JSON
 app.use(express.json());
@@ -50,14 +50,15 @@ app.post("/items", (req, res) => {
 
 // Actualizar un ítem existente
 app.put("/items/:id", (req, res) => {
-  const itemId = parseInt(req.params.id);
-  const itemIndex = items.findIndex((i) => i.id === itemId);
-  if (itemIndex !== -1) {
-    items[itemIndex].name = req.body.name;
-    res.json(items[itemIndex]);
-  } else {
-    res.status(404).json({ message: "Ítem no encontrado" });
-  }
+  const itemId = req.params.id;
+  ordenador = req.body;
+  //res.send(ordenador);
+  modeloOrdenador.actualizaOrdenador(itemId,ordenador)
+  .then(
+    ordenadorAtualizado=>res.status(200).json(ordenadorAtualizado)
+  )
+  .catch(err=>res.status(500).send("error al actualizar el ordenador"))
+
 });
 
 
