@@ -4,17 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #id { display: none;}
+    </style>
 </head>
 <body>
     <h1>Lista Ordenadores</h1>
+    <a href="/actualiza.html">Actualizar ordenadores</a>
     <select name="seleccionaOrdenador" id="seleccionaOrdenador">
 
     </select>
     <script>
-        fetch('/items')
+       
+        const creaSelect = ()=>{
+            fetch('/items')
         .then(response=>response.json())
         .then(
             ordenadores=>{
+                const selectOrd = document.getElementById("seleccionaOrdenador");
+                while (selectOrd.firstChild) {
+                    selectOrd.removeChild(selectOrd.firstChild);
+                }
+
                 for ( ordenador of ordenadores){
                     let opcion = document.createElement('option');
                     opcion.value = ordenador._id;
@@ -23,6 +34,9 @@
                 }
             }
         ).catch(err=>alert(err))
+
+        }
+        
 
 
         const traeOrdenador=()=>{
@@ -41,7 +55,7 @@
         const actualizaOrdenador = ()=>{
             let marca = document.getElementById('marca').value;
             let precio = Number(document.getElementById('precio').value);
-            let id=document.getElementById("seleccionaOrdenador");
+            let id=document.getElementById("seleccionaOrdenador").value;
                 fetch('/items/' + id,{
                     method: 'PUT',
                     headers: {
@@ -51,6 +65,7 @@
                 }).then(
                     ordenador=>{
                         if ( ordenador ) {
+                            creaSelect();
                             alert("ordenador ACTUALIZADO")
                         } else {
                             alert("No se insertó el ordenador")
@@ -65,9 +80,8 @@
 
         }
         document.getElementById("seleccionaOrdenador").addEventListener('change',traeOrdenador);
-        document.getElementById("btn-insertar").addEventListener('click',actualizaOrdenador);
-
-
+        creaSelect();
+        traeOrdenador();
     </script>
     <input type="text" name="id" id="id">
     <p>Marca: <input type="text" name="marca" id="marca"></p>

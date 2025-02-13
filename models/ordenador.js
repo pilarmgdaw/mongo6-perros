@@ -1,9 +1,6 @@
 // Using Node.js `require()`
 const mongoose = require('mongoose');
-require('dotenv').config();
 
-mongoose.connect(process.env.CADENA)
-  .then(() => console.log('Connected!'));
 
 //definimos el esquema del documento
 const ordenadorSchema = new mongoose.Schema({
