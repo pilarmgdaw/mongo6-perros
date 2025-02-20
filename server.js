@@ -14,6 +14,9 @@ mongoose.connect(process.env.CADENA)
 // Middleware para parsear el cuerpo de las solicitudes en formato JSON
 app.use(express.json());
 app.use(express.static('public'));
+app.use('uploads', express.static('uploads'));
+app.set('view engine','ejs');
+app.set('views', './views');
 const modeloOrdenador = require('./models/ordenador');
 const User = require("./models/User");
 
@@ -26,9 +29,20 @@ app.post('/subir', upload.single('file'), (req, res) => {
   res.json({ message: 'Archivo subido correctamente', file: req.file });
 });
 
+app.get('/usuario/:id', (req,res)=>{
+  const id=req.params.id;
+  User.findById(id)
+  .then( user=>res.render('usuario',{user}))
+  .catch(error=>res.status(500).json({mensaje: Err}))
+
+}
+
+  
+)
+
 
 //registro de usuario
-app.post('/registro', (req, res) => {
+app.post('/registro', upload.single('foto'), (req, res) => {
   const { name, email, password } = req.body;
 
   // Encriptar contraseña
@@ -40,6 +54,7 @@ app.post('/registro', (req, res) => {
         name,
         email,
         password: hashedPassword,
+        foto: req.file.filename
       });
 
 
