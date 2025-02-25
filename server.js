@@ -14,7 +14,7 @@ mongoose.connect(process.env.CADENA)
 // Middleware para parsear el cuerpo de las solicitudes en formato JSON
 app.use(express.json());
 app.use(express.static('public'));
-app.use('uploads', express.static('uploads'));
+app.use('/fotos', express.static('uploads'));
 app.set('view engine','ejs');
 app.set('views', './views');
 const modeloOrdenador = require('./models/ordenador');
@@ -28,6 +28,14 @@ app.post('/subir', upload.single('file'), (req, res) => {
   }
   res.json({ message: 'Archivo subido correctamente', file: req.file });
 });
+
+app.get('/usuarios', (req,res)=>{
+  User.find()
+  .then( users=>res.json(users))
+  .catch(error=>res.status(500).json({mensaje: Err}))
+
+}
+)
 
 app.get('/usuario/:id', (req,res)=>{
   const id=req.params.id;
