@@ -6,14 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Listado de ordenadores</h1>
+    <h1>Listado de perros</h1>
     <a href="/registro.html">Registro nuevo usuario</a>
-    <a href="/insertar.html">Nuevo Ordenador</a>
-    <a href="/actualiza.html">Actualizar Ordenadores</a>
+    <a href="/insertar.html">Nuevo Perro</a>
+    <a href="/actualiza.html">Actualizar Perros</a>
     <table id="tablaProducto">
         <thead>
             <tr>
-                <th>id</th><th>marca</th><th>Precio</th>                
+                <th>id</th><th>raza</th><th>Edad</th>                
             </tr>
         </thead>
         <tbody id="cuerpo-tabla">
@@ -23,17 +23,17 @@
     <script>
         fetch('/items')
         .then(response =>response.json())
-        .then(ordenadores=>{
+        .then(perros=>{
             
-            console.log(ordenadores);
-            for ( ordenador of ordenadores){
+            console.log(perros);
+            for ( perro of perros){
                 fila = document.createElement('tr');
-                fila.id = ordenador._id;
-                fila.innerHTML = `<td>${ordenador._id}</td>
-                <td>${ordenador.marca}</td>
-                <td>${ordenador.precio}</td>
-                <td><button onclick=eliminaOrdenador('${ordenador._id}')>Borrar ordenador</button></td>
-                <td><button onclick=actualizaOrdenador('${ordenador._id}')>Actualizar ordenador</button></td>`
+                fila.id = perro._id;
+                fila.innerHTML = `<td>${perro._id}</td>
+                <td>${perro.raza}</td>
+                <td>${perro.edad}</td>
+                <td><button onclick=eliminaPerro('${perro._id}')>Borrar perro</button></td>
+                <td><button onclick=actualizaPerro('${perro._id}')>Actualizar perro</button></td>`
                 
                 ;
                 
@@ -41,18 +41,18 @@
             }
            
         })
-     function actualizaOrdenador(id) {
-            window.location.href = `/update_ordenador?id=${id}`;
+     function actualizaPerro(id) {
+            window.location.href = `/update_perro?id=${id}`;
     }
-        function eliminaOrdenador(id){
+        function eliminaPerro(id){
             if (confirm("¿Está seguro/a?")){
                 fetch('/items/'+id,{
                     method:'DELETE'   
                 }).
                 then(response=>{
-                    if (  esponse.ok ) {
+                    if (response.ok) {
                         document.getElementById(id).remove();
-                        alert("Ordenador eliminado");
+                        alert("Perro eliminado");
 
                     }
                     else

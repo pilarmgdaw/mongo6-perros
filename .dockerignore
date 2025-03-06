@@ -1,0 +1,2 @@
+node_modules
+npm-debug.logcurl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg

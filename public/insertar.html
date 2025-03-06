@@ -6,27 +6,27 @@
     <title>Document</title>
 </head>
 <body>
-<h1>Insertar Ordenador</h1>
-<p>Marca: <input type="text" name="marca" id="marca"></p>
-<p>Precio: <input type="number" name="precio" id="precio"></p>
+<h1>Insertar Perro</h1>
+<p>Raza: <input type="text" name="raza" id="raza"></p>
+<p>Edad: <input type="number" name="edad" id="edad"></p>
 <button id="btn-insertar">Insertar</button>
 
 <script>
-    const insertOrdenador = ()=>{
-        let marca = document.getElementById('marca').value;
-        let precio = document.getElementById('precio').value;
+    const insertPerro = ()=>{
+        let raza = document.getElementById('raza').value;
+        let edad = document.getElementById('edad').value;
         fetch('/items',{
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/JSON'
             },
-            body: JSON.stringify({marca, precio})
+            body: JSON.stringify({raza, edad})
         }).then(
-            ordenador=>{
-                if ( ordenador ) {
-                    alert("ordenador insertdo")
+            perro=>{
+                if ( perro ) {
+                    alert("Perro insertado")
                 } else {
-                    alert("No se insertó el ordenador")
+                    alert("No se insertó el perro")
                 }
             }
 
@@ -36,7 +36,7 @@
         })
     }
 
-    document.getElementById("btn-insertar").addEventListener('click',insertOrdenador)
+    document.getElementById("btn-insertar").addEventListener('click',insertPerro)
 
 </script>
 </body>

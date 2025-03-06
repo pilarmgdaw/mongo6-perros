@@ -1,29 +1,24 @@
+// Using Node.js `require()`
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://andujarbosco:AU38yGaxOohnqopw@cluster0.yaak6.mongodb.net/almacen')
-  .then(() => console.log('Connected!'));
-
-//definimos el esquema del documento
-const ordenadorSchema = new mongoose.Schema({
-    marca:String,
-    precio:Number
+// Definimos el esquema del documento
+const perroSchema = new mongoose.Schema({
+    raza: String,
+    edad: Number
 });
 
-const Ordenador = mongoose.model('Ordenadore',ordenadorSchema, 'ordenadores');
+// Creamos el modelo
+const Perro = mongoose.model('Perro', perroSchema, 'perros');
 
-const buscaPrimero = ()=>{
-  //buscamos el primer registro
-Ordenador.findOne()
-  .then( ordenador=>{
-    if (ordenador) {
-      console.log('Primer ordenador encontrado',ordenador)
-    } else {
-      console.log('No se encontró ningún registro')
-    }
-  })
-  .catch(err=>console.error('Error al obtener el ordenador',err));
+const buscaPrimero = () => {
+    // Buscamos el primer registro
+    return Perro.findOne()
+        .then(perro => {
+            if (perro) {
+                console.log('Primer perro encontrado', perro);
+            } else {
+                console.log('No se encontró ningún registro');
+            }
+        })
+        .catch(err => console.error('Error al obtener el perro', err));
 }
-
-
-module.exports = { buscaPrimero };
-

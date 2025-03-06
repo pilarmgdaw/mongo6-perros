@@ -17,29 +17,29 @@ app.use(express.static('public'));
 app.use('/fotos', express.static('uploads'));
 app.set('view engine','ejs');
 app.set('views', './views');
-const modeloOrdenador = require('./models/ordenador');
+const modeloPerro = require('./models/perro');
 const User = require("./models/User");
 
-app.get('/update_ordenador', (req, res) => {
+app.get('/update_perro', (req, res) => {
   const id = req.query.id;
-  modeloOrdenador.buscaPorId(id)
+  modeloPerro.buscaPorId(id)
   .then(
-    ordenador=>res.render('actualiza', { ordenador })
+    perro=>res.render('actualiza', { perro })
   )
   .catch(err=>res.status(500).send("error"))
 });
 
-app.post('/update_ordenador', (req, res) => {
+app.post('/update_perro', (req, res) => {
   const { id, marca, precio } = req.body;
-  modeloOrdenador.buscaPorId(id).then(ordenador => { 
-    if (ordenador) {
-      ordenador.marca = marca;
-      ordenador.precio = precio;
-      ordenador.save()
-      .then(ordenador=>res.redirect('/'))
+  modeloPerro.buscaPorId(id).then(perro => { 
+    if (perro) {
+      perro.marca = marca;
+      perro.precio = precio;
+      perro.save()
+      .then(perro=>res.redirect('/'))
       .catch(err=>res.status(500).send("error"))
     } else {
-      res.status(404).send('Ordenador no encontrado');
+      res.status(404).send('Perro no encontrado');
     }
   });
 
@@ -133,9 +133,9 @@ app.post('/login', (req, res) => {
 
 // Obtener todos los ítems
 app.get("/items", (req, res) => {
-  modeloOrdenador.buscaTodos()
+  modeloPerro.buscaTodos()
   .then(
-    ordenadores=>res.status(200).json(ordenadores)
+    perros=>res.status(200).json(perros)
   )
   .catch(err=>res.status(500).send("error"))
 });
@@ -144,9 +144,9 @@ app.get("/items", (req, res) => {
 // Obtener un ítem por ID
 app.get("/items/:id", (req, res) => {
   const itemId = req.params.id;
-  modeloOrdenador.buscaPorId(itemId)
+  modeloPerro.buscaPorId(itemId)
   .then(
-    ordenador=>res.status(200).json(ordenador)
+    perro=>res.status(200).json(perro)
   )
   .catch(err=>res.status(500).send("error"))
 });
@@ -156,9 +156,9 @@ app.get("/items/:id", (req, res) => {
 app.post("/items", (req, res) => {
     marca= req.body.marca;
     precio= req.body.precio;
-    modeloOrdenador.creaNuevoOrdenador(marca,precio)
+    modeloPerro.creaNuevoPerro(marca,precio)
     .then(
-      ordenador=>res.status(200).json(ordenador)
+      perro=>res.status(200).json(perro)
     )
     .catch(err=>res.status(500).send("error"))
 
@@ -168,13 +168,13 @@ app.post("/items", (req, res) => {
 // Actualizar un ítem existente
 app.put("/items/:id", (req, res) => {
   const itemId = req.params.id;
-  ordenador = req.body;
-  //res.send(ordenador);
-  modeloOrdenador.actualizaOrdenador(itemId,ordenador)
+  perro = req.body;
+  //res.send(perro);
+  modeloPerro.actualizaPerro(itemId,perro)
   .then(
-    ordenadorAtualizado=>res.status(200).json(ordenadorAtualizado)
+    perroAtualizado=>res.status(200).json(perroAtualizado)
   )
-  .catch(err=>res.status(500).send("error al actualizar el ordenador"))
+  .catch(err=>res.status(500).send("error al actualizar el perro"))
 
 });
 
@@ -182,9 +182,9 @@ app.put("/items/:id", (req, res) => {
 // Eliminar un ítem
 app.delete("/items/:id", (req, res) => {
   const itemId = req.params.id;
-  modeloOrdenador.borraOrdenador(itemId)
+  modeloPerro.borraPerro(itemId)
   .then(
-    ordenador=>res.status(200).json(ordenador)
+    perro=>res.status(200).json(perro)
   )
   .catch(err=>res.status(500).send("error"))
 

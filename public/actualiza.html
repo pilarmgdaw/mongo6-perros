@@ -9,9 +9,9 @@
     </style>
 </head>
 <body>
-    <h1>Lista Ordenadores</h1>
-    <a href="/actualiza.html">Actualizar ordenadores</a>
-    <select name="seleccionaOrdenador" id="seleccionaOrdenador">
+    <h1>Lista Perros</h1>
+    <a href="/actualiza.html">Actualizar perros</a>
+    <select name="seleccionaPerro" id="seleccionaPerro">
 
     </select>
     <script>
@@ -20,17 +20,17 @@
             fetch('/items')
         .then(response=>response.json())
         .then(
-            ordenadores=>{
-                const selectOrd = document.getElementById("seleccionaOrdenador");
-                while (selectOrd.firstChild) {
-                    selectOrd.removeChild(selectOrd.firstChild);
+            perros=>{
+                const selectPerro = document.getElementById("seleccionaPerro");
+                while (selectPerro.firstChild) {
+                    selectPerro.removeChild(selectPerro.firstChild);
                 }
 
-                for ( ordenador of ordenadores){
+                for ( perro of perros){
                     let opcion = document.createElement('option');
-                    opcion.value = ordenador._id;
-                    opcion.innerHTML = ordenador.marca +'-' + ordenador.precio;
-                    document.getElementById("seleccionaOrdenador").appendChild(opcion)
+                    opcion.value = perro._id;
+                    opcion.innerHTML = perro.raza +'-' + perro.edad;
+                    document.getElementById("seleccionaPerro").appendChild(opcion)
                 }
             }
         ).catch(err=>alert(err))
@@ -39,36 +39,38 @@
         
 
 
-        const traeOrdenador=()=>{
-            id = document.getElementById("seleccionaOrdenador").value;
+        const traePerro=()=>{
+            id = document.getElementById("seleccionaPerro").value;
             fetch('/items/' + id)
             .then( response =>response.json())
-            .then( ordenador => {
-                document.getElementById('id').value = ordenador._id;
-                document.getElementById('marca').value = ordenador.marca;
-                document.getElementById('precio').value = ordenador.precio;
+            .then( perro => {
+                document.getElementById('id').value = perro._id;
+                document.getElementById('raza').value = perro.raza;
+                document.getElementById('edad').value = perro.edad;
 
             })
 
         }
 
-        const actualizaOrdenador = ()=>{
-            let marca = document.getElementById('marca').value;
-            let precio = Number(document.getElementById('precio').value);
-            let id=document.getElementById("seleccionaOrdenador").value;
+        const actualizaPerro = ()=>{
+            let raza = document.getElementById('raza').value;
+            let edad = Number(document.getElementById('edad').value);
+            let id=document.getElementById("seleccionaPerro").value;
                 fetch('/items/' + id,{
                     method: 'PUT',
                     headers: {
                         'Content-Type' : 'application/JSON'
                     },
-                    body: JSON.stringify({marca, precio})
+                    body: JSON.stringify({raza, edad})
                 }).then(
-                    ordenador=>{
-                        if ( ordenador ) {
+                    response => response.json()
+                ).then(
+                    perro=>{
+                        if ( perro ) {
                             creaSelect();
-                            alert("ordenador ACTUALIZADO")
+                            alert("perro ACTUALIZADO")
                         } else {
-                            alert("No se insertó el ordenador")
+                            alert("No se actualizó el perro")
                         }
                     }
 
@@ -79,14 +81,14 @@
 
 
         }
-        document.getElementById("seleccionaOrdenador").addEventListener('change',traeOrdenador);
+        document.getElementById("seleccionaPerro").addEventListener('change',traePerro);
         creaSelect();
-        traeOrdenador();
+        traePerro();
     </script>
     <input type="text" name="id" id="id">
-    <p>Marca: <input type="text" name="marca" id="marca"></p>
-    <p>Precio: <input type="number" name="precio" id="precio"></p>
-    <button id="btn-insertar" onclick="actualizaOrdenador()">Actualiza</button>
+    <p>Raza: <input type="text" name="raza" id="raza"></p>
+    <p>Edad: <input type="number" name="edad" id="edad"></p>
+    <button id="btn-insertar" onclick="actualizaPerro()">Actualiza</button>
     
 
     </body>

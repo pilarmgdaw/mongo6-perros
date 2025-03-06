@@ -1,156 +1,167 @@
 // Using Node.js `require()`
 const mongoose = require('mongoose');
 
-
-//definimos el esquema del documento
-const ordenadorSchema = new mongoose.Schema({
-    marca:String,
-    precio:Number
+// Definimos el esquema del documento
+const perroSchema = new mongoose.Schema({
+    raza: String,
+    edad: Number
 });
-//creamos el modelo
 
-const Ordenador = mongoose.model('Ordenadore',ordenadorSchema, 'ordenadores'); 
-const buscaPrimero = ()=>{
-    //buscamos el primer registro
-  return Ordenador.findOne()
-    .then( ordenador=>{
-      if (ordenador) {
-        console.log('Primer ordenador encontrado',ordenador);
-      } else {
-        console.log('No se encontró ningún registro')
-      }
-    })
-    .catch(err=>console.error('Error al obtener el ordenador',err));
-  }
+// Creamos el modelo
+const Perro = mongoose.model('Perro', perroSchema, 'perros');
 
-  const buscaTodos = ()=>{
-    //buscamos todos los registros
-  return Ordenador.find()
-    .then( ordenadores=>{
-      if (ordenadores.length>0) {
-        /*console.log('Ordenadores encontrados',ordenadores);*/
-        return ordenadores;
-      } else {
-        console.log('No se encontró ningún registro');
-        return null;
-      }
-    })
-    .catch(err=>{console.error('Error al obtener los ordenadores',err);
-      throw err;
-    });
-  }
-
-  const buscaPorId = (id)=>{
-    //buscamos el primer registro
-  return Ordenador.findById(id)
-    .then( ordenador=>{
-      if (ordenador) {
-        //console.log('Primer ordenador encontrado',ordenador);
-        return ordenador;
-      } else {
-        console.log('No se encontró ningún registro con el id'+ id);
-        return null;
-      }
-    })
-    .catch(err=>{console.error('Error al obtener el ordenador' + id,err);
-      throw err;
-    });
-  }
-
-  //***************************** */
-// busca por precio mayor a 3000
-/****************************** */
-const buscaPrecioMayor = (precioMinimo)=>{
-    //buscamos todos los registros
-    Ordenador.find({precio: { $gt:precioMinimo}})
-    .then( ordenadores=>{
-      if (ordenadores.length>0) {
-        console.log('Ordenadores encontrados con precio mayor a ' + precioMinimo,ordenadores)
-      } else {
-        console.log('No se encontró ningún registro')
-      }
-    })
-    .catch(err=>console.error('Error al obtener los ordenadores',err));
-  }
-
-  const creaNuevoOrdenador = ( m , p) =>{
-    const nuevoOrdenador = new Ordenador({
-        marca: m,
-        precio: p
-      });
-
-      // Guardar el ordenador en la base de datos
-      return nuevoOrdenador.save()
-        .then(ordenador => {
-          console.log('Ordenador guardado:', ordenador);
-          return ordenador;
-        } )
-        .catch(err => {
-          console.error('Error al guardar el ordenador:', err);
-          throw err;
-        });
-
-  }
-  const creaNuevoOrdenadorGeneral = ( ordenador) =>{
-    const nuevoOrdenador = new Ordenador({
-        marca: m,
-        precio: p
-      });
-
-      // Guardar el ordenador en la base de datos
-      return nuevoOrdenador.save()
-        .then(ordenador => {
-          console.log('Ordenador guardado:', ordenador);
-          return ordenador;
-        } )
-        .catch(err => {
-          console.error('Error al guardar el ordenador:', err);
-          throw err;
-        });
-
-  }
-
-  const actualizaPrecio = (idOrdenador,nuevoPrecio) => {
-    Ordenador.findByIdAndUpdate(idOrdenador, { precio: nuevoPrecio }, { new: true })
-    .then(ordenadorActualizado => {
-      if (ordenadorActualizado) {
-        console.log('Ordenador actualizado:', ordenadorActualizado);
-      } else {
-        console.log('No se encontró ningún ordenador con ese ID.');
-      }
-    })
-    .catch(err => console.error('Error al actualizar el ordenador:', err));
-  }
-
-  const actualizaOrdenador = (idOrdenador,ordenadorActualizar) => {
-    return Ordenador.findByIdAndUpdate(idOrdenador, ordenadorActualizar, { new: true })
-    .then(ordenadorActualizado => {
-      if (ordenadorActualizado) {
-        console.log('Ordenador actualizado:', ordenadorActualizado);
-        return ordenadorActualizado;
-      } else {
-        console.log('No se encontró ningún ordenador con ese ID.');
-        return null;
-      }
-    })
-    .catch(err => console.error('Error al actualizar el ordenador:', err));
-  }
-
-  const borraOrdenador = (idOrdenadorParaBorrar) =>{
-    return Ordenador.findByIdAndDelete(idOrdenadorParaBorrar)
-    .then(ordenadorEliminado => {
-      if (ordenadorEliminado) {
-        console.log('Ordenador eliminado:', ordenadorEliminado);
-        return ordenadorEliminado;
-      } else {
-        console.log('No se encontró ningún ordenador con ese ID.');
-        return null;
-      }
-    })
-    .catch(err => {console.error('Error al eliminar el ordenador:', err);
-      throw err;
-    });
-
+const buscaPrimero = () => {
+    // Buscamos el primer registro
+    return Perro.findOne()
+        .then(perro => {
+            if (perro) {
+                console.log('Primer perro encontrado', perro);
+            } else {
+                console.log('No se encontró ningún registro');
+            }
+        })
+        .catch(err => console.error('Error al obtener el perro', err));
 }
-  module.exports = { actualizaOrdenador, buscaPrimero,buscaTodos,buscaPorId, 
-    buscaPrecioMayor, actualizaPrecio, borraOrdenador, creaNuevoOrdenador,Ordenador }
+
+const buscaTodos = () => {
+    // Buscamos todos los registros
+    return Perro.find()
+        .then(perros => {
+            if (perros.length > 0) {
+                /*console.log('Perros encontrados', perros);*/
+                return perros;
+            } else {
+                console.log('No se encontró ningún registro');
+                return null;
+            }
+        })
+        .catch(err => {
+            console.error('Error al obtener los perros', err);
+            throw err;
+        });
+}
+
+const buscaPorId = (id) => {
+    // Buscamos el primer registro
+    return Perro.findById(id)
+        .then(perro => {
+            if (perro) {
+                //console.log('Primer perro encontrado', perro);
+                return perro;
+            } else {
+                console.log('No se encontró ningún registro con el id' + id);
+                return null;
+            }
+        })
+        .catch(err => {
+            console.error('Error al obtener el perro' + id, err);
+            throw err;
+        });
+}
+
+//***************************** */
+// Busca por edad mayor a 3
+/****************************** */
+const buscaEdadMayor = (edadMinima) => {
+    // Buscamos todos los registros
+    Perro.find({ edad: { $gt: edadMinima } })
+        .then(perros => {
+            if (perros.length > 0) {
+                console.log('Perros encontrados con edad mayor a ' + edadMinima, perros);
+            } else {
+                console.log('No se encontró ningún registro');
+            }
+        })
+        .catch(err => console.error('Error al obtener los perros', err));
+}
+
+const creaNuevoPerro = (r, e) => {
+    const nuevoPerro = new Perro({
+        raza: r,
+        edad: e
+    });
+
+    // Guardar el perro en la base de datos
+    return nuevoPerro.save()
+        .then(perro => {
+            console.log('Perro guardado:', perro);
+            return perro;
+        })
+        .catch(err => {
+            console.error('Error al guardar el perro:', err);
+            throw err;
+        });
+}
+
+const creaNuevoPerroGeneral = (perro) => {
+    const nuevoPerro = new Perro({
+        raza: perro.raza,
+        edad: perro.edad
+    });
+
+    // Guardar el perro en la base de datos
+    return nuevoPerro.save()
+        .then(perro => {
+            console.log('Perro guardado:', perro);
+            return perro;
+        })
+        .catch(err => {
+            console.error('Error al guardar el perro:', err);
+            throw err;
+        });
+}
+
+const actualizaEdad = (idPerro, nuevaEdad) => {
+    Perro.findByIdAndUpdate(idPerro, { edad: nuevaEdad }, { new: true })
+        .then(perroActualizado => {
+            if (perroActualizado) {
+                console.log('Perro actualizado:', perroActualizado);
+            } else {
+                console.log('No se encontró ningún perro con ese ID.');
+            }
+        })
+        .catch(err => console.error('Error al actualizar el perro:', err));
+}
+
+const actualizaPerro = (idPerro, perroActualizar) => {
+    return Perro.findByIdAndUpdate(idPerro, perroActualizar, { new: true })
+        .then(perroActualizado => {
+            if (perroActualizado) {
+                console.log('Perro actualizado:', perroActualizado);
+                return perroActualizado;
+            } else {
+                console.log('No se encontró ningún perro con ese ID.');
+                return null;
+            }
+        })
+        .catch(err => console.error('Error al actualizar el perro:', err));
+}
+
+const borraPerro = (idPerroParaBorrar) => {
+    return Perro.findByIdAndDelete(idPerroParaBorrar)
+        .then(perroEliminado => {
+            if (perroEliminado) {
+                console.log('Perro eliminado:', perroEliminado);
+                return perroEliminado;
+            } else {
+                console.log('No se encontró ningún perro con ese ID.');
+                return null;
+            }
+        })
+        .catch(err => {
+            console.error('Error al eliminar el perro:', err);
+            throw err;
+        });
+}
+
+module.exports = {
+    actualizaPerro,
+    buscaPrimero,
+    buscaTodos,
+    buscaPorId,
+    buscaEdadMayor,
+    actualizaEdad,
+    borraPerro,
+    creaNuevoPerro,
+    Perro
+}
