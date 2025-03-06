@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const app = express();
-const port = 3003;
+const port = 3004;
 
 require('dotenv').config();
 
@@ -20,7 +20,30 @@ app.set('views', './views');
 const modeloOrdenador = require('./models/ordenador');
 const User = require("./models/User");
 
+app.get('/update_ordenador', (req, res) => {
+  const id = req.query.id;
+  modeloOrdenador.buscaPorId(id)
+  .then(
+    ordenador=>res.render('actualiza', { ordenador })
+  )
+  .catch(err=>res.status(500).send("error"))
+});
 
+app.post('/update_ordenador', (req, res) => {
+  const { id, marca, precio } = req.body;
+  modeloOrdenador.buscaPorId(id).then(ordenador => { 
+    if (ordenador) {
+      ordenador.marca = marca;
+      ordenador.precio = precio;
+      ordenador.save()
+      .then(ordenador=>res.redirect('/'))
+      .catch(err=>res.status(500).send("error"))
+    } else {
+      res.status(404).send('Ordenador no encontrado');
+    }
+  });
+
+});
 // Ruta para subir archivos
 app.post('/subir', upload.single('file'), (req, res) => {
   if (!req.file) {

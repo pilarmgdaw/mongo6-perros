@@ -28,7 +28,7 @@ const buscaPrimero = ()=>{
   return Ordenador.find()
     .then( ordenadores=>{
       if (ordenadores.length>0) {
-        console.log('Ordenadores encontrados',ordenadores);
+        /*console.log('Ordenadores encontrados',ordenadores);*/
         return ordenadores;
       } else {
         console.log('No se encontró ningún registro');
@@ -45,7 +45,7 @@ const buscaPrimero = ()=>{
   return Ordenador.findById(id)
     .then( ordenador=>{
       if (ordenador) {
-        console.log('Primer ordenador encontrado',ordenador);
+        //console.log('Primer ordenador encontrado',ordenador);
         return ordenador;
       } else {
         console.log('No se encontró ningún registro con el id'+ id);

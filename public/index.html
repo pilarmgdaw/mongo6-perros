@@ -7,8 +7,9 @@
 </head>
 <body>
     <h1>Listado de ordenadores</h1>
-    <a href="/subir.html">Subir Ordenador</a>
     <a href="/registro.html">Registro nuevo usuario</a>
+    <a href="/insertar.html">Nuevo Ordenador</a>
+    <a href="/actualiza.html">Actualizar Ordenadores</a>
     <table id="tablaProducto">
         <thead>
             <tr>
@@ -31,12 +32,18 @@
                 fila.innerHTML = `<td>${ordenador._id}</td>
                 <td>${ordenador.marca}</td>
                 <td>${ordenador.precio}</td>
-                <td><button onclick=eliminaOrdenador('${ordenador._id}')>Borrar ordenador</button></td>`;
+                <td><button onclick=eliminaOrdenador('${ordenador._id}')>Borrar ordenador</button></td>
+                <td><button onclick=actualizaOrdenador('${ordenador._id}')>Actualizar ordenador</button></td>`
+                
+                ;
+                
                 document.getElementById('cuerpo-tabla').appendChild(fila);
             }
            
         })
-     
+     function actualizaOrdenador(id) {
+            window.location.href = `/update_ordenador?id=${id}`;
+    }
         function eliminaOrdenador(id){
             if (confirm("¿Está seguro/a?")){
                 fetch('/items/'+id,{

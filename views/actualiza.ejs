@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Ordenador</title>
+</head>
+<body>
+    <h1>Actualizar Ordenador</h1>
+    <form action="/update_ordenador" method="POST">
+        <input type="hidden" name="id" value="<%= ordenador._id %>">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca" value="<%= ordenador.marca %>">
+        <br>
+        <label for="precio">Precio:</label>
+        <input type="text" id="precio" name="precio" value="<%= ordenador.precio %>">
+        <br>
+        <button type="submit">Actualizar</button>
+    </form>
+</body>
+</html>
